@@ -9,8 +9,9 @@
 
     flake-utils = {
       type = "github";
-      owner = "numtide";
+      owner = "meta-introspector";
       repo = "flake-utils";
+      ref = "feature/CRQ-016-nixify";
     };
   };
 
