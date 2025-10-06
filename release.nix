@@ -19,8 +19,8 @@ let
 
     pip2nix = filterAttrs (n: v: n != "recurseForDerivations") (
       pkgs.recurseIntoAttrs (
-        builtins.listToAttrs (map make-pip2nix ([]
-        ++ optional (hasAttr "python27Packages" pkgs) {pythonVersion = "27";}
+        builtins.listToAttrs (map make-pip2nix (
+        optional (hasAttr "python27Packages" pkgs) {pythonVersion = "27";}
         ++ optional (hasAttr "python33Packages" pkgs) {pythonVersion = "33";}
         ++ optional (hasAttr "python34Packages" pkgs) {pythonVersion = "34";}
         ++ optional (hasAttr "python35Packages" pkgs) {pythonVersion = "35";}
@@ -34,7 +34,7 @@ let
 
     docs = pkgs.stdenv.mkDerivation {
       name = "pip2nix-docs";
-      src = pip2nix.python36.src;
+      inherit (pip2nix.python36) src;
       #outputs = [ "html" ];  # TODO: PDF would be even nicer on CI
       buildInputs = [ pip2nix.python36 ] ++ (with  pkgs.python36Packages; [
         sphinx

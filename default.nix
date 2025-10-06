@@ -14,7 +14,7 @@ let
   basePythonPackagesUnfix = basePythonPackages.__unfix__ or (
     self: basePythonPackages.override (a: { inherit self; }));
 
-  elem = builtins.elem;
+  inherit (builtins) elem;
   basename = path: last (splitString "/" path);
   startsWith = prefix: full: let
     actualPrefix = builtins.substring 0 (builtins.stringLength prefix) full;
@@ -56,7 +56,7 @@ let
         done
       '';
     });
-    pip = basePythonPackages.pip;
+    inherit (basePythonPackages) pip;
   };
 
   pythonPackagesGenerated = import ./python-packages.nix {
@@ -65,9 +65,9 @@ let
   };
 
   myPythonPackages =
-    (fix
+    fix
     (extends pythonPackagesLocalOverrides
     (extends pythonPackagesGenerated
-             basePythonPackagesUnfix)));
+             basePythonPackagesUnfix));
 
 in myPythonPackages.pip2nix
