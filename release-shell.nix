@@ -14,7 +14,7 @@ let
     self: basePythonPackages.override (a: { inherit self; }));
 
   pythonPackagesLocalOverrides = self: super: {
-    setuptools = basePythonPackages.setuptools;
+    inherit (basePythonPackages) setuptools;
   };
 
   pythonPackagesGenerated = import ./release-python-packages.nix {
@@ -23,10 +23,10 @@ let
   };
 
   myPythonPackages =
-    (fix
+    fix
     (extends pythonPackagesLocalOverrides
     (extends pythonPackagesGenerated
-             basePythonPackagesUnfix)));
+             basePythonPackagesUnfix));
 
 in pkgs.stdenv.mkDerivation {
   name = "release";

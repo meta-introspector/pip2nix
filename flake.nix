@@ -39,7 +39,7 @@
             }) (builtins.attrNames packages.pip2nix)
           ))
           // {
-            docs = packages.docs;
+            inherit (packages) docs;
             default = packages.pip2nix.python39;
           };
       }
